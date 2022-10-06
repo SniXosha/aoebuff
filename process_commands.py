@@ -2,33 +2,38 @@ from game import add_game, list_games
 from game_stats import count_games, count_winrate
 
 
-def str_to_dict(main_command_arguments):
+def str_to_dict(arguments_tokens):
     dictionary = {}
-    for pairs in main_command_arguments:
+    for pairs in arguments_tokens:
         pair = pairs.split('=')
         dictionary[pair[0]] = pair[1]
     return dictionary
 
 
+def parse_command(command):
+    tokens = command.split()
+    name = tokens[0]
+    arguments_tokens = tokens[1:]
+    arguments = str_to_dict(arguments_tokens)
+    return name, arguments
+
+
 def process_commands(matches):
     while True:
-        command_name = input('Enter the command: ')
-        command_tokens = command_name.split()
-        command_token_function = command_tokens[0]
-        command_tokens_arguments = command_tokens[1:]
-        arguments_dict = str_to_dict(command_tokens_arguments)
-        if command_token_function == 'ADD':
-            nickname = arguments_dict['nickname']
-            race = arguments_dict['race']
-            result = arguments_dict['result']
+        command = input('Enter the command: ')
+        name, arguments = parse_command(command)
+        if name == 'ADD':
+            nickname = arguments['nickname']
+            race = arguments['race']
+            result = arguments['result']
             add_game(matches, nickname, race, result)
-        elif command_token_function == 'LIST_OF_GAMES':
+        elif name == 'LIST_OF_GAMES':
             list_games(matches)
-        elif command_token_function == 'STOP':
+        elif name == 'STOP':
             break
-        elif command_token_function == 'COUNT':
-            nickname_for_count = arguments_dict['nickname']
-            print(count_games(matches, nickname_for_count))
-        elif command_token_function == 'WIN_RATE':
-            nickname_for_count_wins = arguments_dict['nickname']
-            print(count_winrate(matches, nickname_for_count_wins))
+        elif name == 'COUNT':
+            nickname = arguments['nickname']
+            print(count_games(matches, nickname))
+        elif name == 'WIN_RATE':
+            nickname = arguments['nickname']
+            print(count_winrate(matches, nickname))
