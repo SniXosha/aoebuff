@@ -1,8 +1,10 @@
-def add_game(matches, nickname, race, result):
+
+
+def add_game(matches, arguments):
     game = {
-        'nickname': nickname,
-        'race': race,
-        'result': result
+        'nickname': arguments['nickname'],
+        'race': arguments['race'],
+        'result': arguments['result']
     }
     matches.append(game)
 

@@ -20,20 +20,18 @@ def parse_command(command):
 
 def process_commands(matches):
     while True:
-        command = input('Enter the command: ')
-        name, arguments = parse_command(command)
-        if name == 'ADD':
-            nickname = arguments['nickname']
-            race = arguments['race']
-            result = arguments['result']
-            add_game(matches, nickname, race, result)
-        elif name == 'LIST_OF_GAMES':
-            list_games(matches)
-        elif name == 'STOP':
-            break
-        elif name == 'COUNT':
-            nickname = arguments['nickname']
-            print(count_games(matches, nickname))
-        elif name == 'WIN_RATE':
-            nickname = arguments['nickname']
-            print(count_winrate(matches, nickname))
+        try:
+            command = input('Enter the command: ')
+            name, arguments = parse_command(command)
+            if name == 'ADD':
+                add_game(matches, arguments)
+            elif name == 'LIST_OF_GAMES':
+                list_games(matches)
+            elif name == 'STOP':
+                break
+            elif name == 'COUNT':
+                print(count_games(matches, arguments))
+            elif name == 'WIN_RATE':
+                print(count_winrate(matches, arguments))
+        except Exception:
+            print('command failed')
